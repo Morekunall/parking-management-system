@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Park</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-parking"></i>
+                <h1>SmartPark</h1>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-link" onclick="showLogin()">Login</a>
+                <a href="#" class="nav-link" onclick="showRegister()">Register</a>
+            </nav>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <section class="welcome-section" id="welcomeSection">
+                <div class="welcome-content">
+                    <h2>Find Your Perfect Parking Spot</h2>
+                    <p>SmartPark connects parking space providers with drivers looking for convenient parking solutions.</p>
+                    <div class="cta-buttons">
+                        <button class="btn btn-primary" onclick="showLogin()">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Get Started
+                        </button>
+                        <button class="btn btn-secondary" onclick="showRegister()">
+                            <i class="fas fa-user-plus"></i>
+                            Create Account
+                        </button>
+                    </div>
+                </div>
+                <div class="welcome-image">
+                    <i class="fas fa-car-side"></i>
+                </div>
+            </section>
+
+            <!-- Login Form -->
+            <section class="auth-section" id="loginSection" style="display: none;">
+                <div class="auth-container">
+                    <div class="auth-header">
+                        <h2>Login to SmartPark</h2>
+                        <p>Welcome back! Please sign in to your account.</p>
+                    </div>
+                    <form class="auth-form" id="loginForm">
+                        <div class="form-group">
+                            <label for="loginEmail">Email Address</label>
+                            <input type="email" id="loginEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="loginPassword">Password</label>
+                            <input type="password" id="loginPassword" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Sign In
+                        </button>
+                    </form>
+                    <div class="auth-footer">
+                        <p>Don't have an account? <a href="#" onclick="showRegister()">Register here</a></p>
+                        <a href="#" onclick="showWelcome()" class="back-link">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Home
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Register Form -->
+            <section class="auth-section" id="registerSection" style="display: none;">
+                <div class="auth-container">
+                    <div class="auth-header">
+                        <h2>Join SmartPark</h2>
+                        <p>Create your account to start managing or finding parking spaces.</p>
+                    </div>
+                    <form class="auth-form" id="registerForm">
+                        <div class="form-group">
+                            <label for="registerName">Full Name</label>
+                            <input type="text" id="registerName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerEmail">Email Address</label>
+                            <input type="email" id="registerEmail" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="registerPassword">Password</label>
+                            <input type="password" id="registerPassword" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="userType">I am a:</label>
+                            <select id="userType" name="userType" required>
+                                <option value="">Select user type</option>
+                                <option value="provider">Parking Space Provider</option>
+                                <option value="customer">Car Owner</option>
+                                <option value="customer">Bike Owner</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">
+                            <i class="fas fa-user-plus"></i>
+                            Create Account
+                        </button>
+                    </form>
+                    <div class="auth-footer">
+                        <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+                        <a href="#" onclick="showWelcome()" class="back-link">
+                            <i class="fas fa-arrow-left"></i>
+                            Back to Home
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Provider Dashboard -->
+            <section class="dashboard-section" id="providerDashboard" style="display: none;">
+                <div class="dashboard-header">
+                    <h2>Provider Dashboard</h2>
+                    <div class="dashboard-actions">
+                        <button class="btn btn-primary" onclick="showAddParking()">
+                            <i class="fas fa-plus"></i>
+                            Add Parking Space
+                        </button>
+                        <button class="btn btn-secondary" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+                <div class="dashboard-content">
+                    <div class="dashboard-nav">
+                        <button class="nav-btn active" onclick="showProviderTab('myParkings')">
+                            <i class="fas fa-parking"></i>
+                            My Parking Spaces
+                        </button>
+                        <button class="nav-btn" onclick="showProviderTab('bookings')">
+                            <i class="fas fa-calendar-check"></i>
+                            Bookings
+                        </button>
+                    </div>
+                    <div class="tab-content" id="myParkingsTab">
+                        <div class="parking-list" id="parkingList">
+                            <!-- Parking spaces will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="tab-content" id="bookingsTab" style="display: none;">
+                        <div class="bookings-list" id="bookingsList">
+                            <!-- Bookings will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customer Dashboard -->
+            <section class="dashboard-section" id="customerDashboard" style="display: none;">
+                <div class="dashboard-header">
+                    <h2>Customer Dashboard</h2>
+                    <div class="dashboard-actions">
+                        <button class="btn btn-primary" onclick="showSearchParking()">
+                            <i class="fas fa-search"></i>
+                            Find Parking
+                        </button>
+                        <button class="btn btn-secondary" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+                <div class="dashboard-content">
+                    <div class="dashboard-nav">
+                        <button class="nav-btn active" onclick="showCustomerTab('search')">
+                            <i class="fas fa-search"></i>
+                            Search Parking
+                        </button>
+                        <button class="nav-btn" onclick="showCustomerTab('myBookings')">
+                            <i class="fas fa-calendar-check"></i>
+                            My Bookings
+                        </button>
+                    </div>
+                    <div class="tab-content" id="searchTab">
+                        <div class="search-form">
+                            <form id="searchForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="searchLocation">Location</label>
+                                        <input type="text" id="searchLocation" name="location" placeholder="Enter location">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="searchDate">Date</label>
+                                        <input type="date" id="searchDate" name="date">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="searchTime">Time</label>
+                                        <input type="time" id="searchTime" name="time">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="maxPrice">Max Price/Hour</label>
+                                        <input type="number" id="maxPrice" name="maxPrice" placeholder="Any">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i>
+                                    Search Parking
+                                </button>
+                            </form>
+                        </div>
+                        <div class="search-results" id="searchResults">
+                            <!-- Search results will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="tab-content" id="myBookingsTab" style="display: none;">
+                        <div class="bookings-list" id="customerBookingsList">
+                            <!-- Customer bookings will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Add Parking Modal -->
+            <div class="modal" id="addParkingModal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Add New Parking Space</h3>
+                        <button class="modal-close" onclick="closeAddParking()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <form id="addParkingForm">
+                        <div class="form-group">
+                            <label for="parkingName">Parking Name</label>
+                            <input type="text" id="parkingName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="parkingLocation">Location</label>
+                            <input type="text" id="parkingLocation" name="location" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="availableSlots">Available Slots</label>
+                            <input type="number" id="availableSlots" name="availableSlots" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pricePerHour">Price per Hour (₹)</label>
+                            <input type="number" id="pricePerHour" name="pricePerHour" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="availableDate">Available Date</label>
+                            <input type="date" id="availableDate" name="availableDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="availableTime">Available Time</label>
+                            <input type="time" id="availableTime" name="availableTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="parkingImage">Image URL (optional)</label>
+                            <input type="url" id="parkingImage" name="imageUrl" placeholder="https://example.com/image.jpg">
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button" class="btn btn-secondary" onclick="closeAddParking()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Add Parking Space</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Edit Parking Modal -->
+            <div class="modal" id="editParkingModal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Edit Parking Space</h3>
+                        <button class="modal-close" onclick="closeEditParking()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <form id="editParkingForm">
+                        <input type="hidden" id="editParkingId" name="parkingId">
+                        <div class="form-group">
+                            <label for="editParkingName">Parking Name</label>
+                            <input type="text" id="editParkingName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editParkingLocation">Location</label>
+                            <input type="text" id="editParkingLocation" name="location" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editAvailableSlots">Available Slots</label>
+                            <input type="number" id="editAvailableSlots" name="availableSlots" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editPricePerHour">Price per Hour (₹)</label>
+                            <input type="number" id="editPricePerHour" name="pricePerHour" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editAvailableDate">Available Date</label>
+                            <input type="date" id="editAvailableDate" name="availableDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editAvailableTime">Available Time</label>
+                            <input type="time" id="editAvailableTime" name="availableTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editParkingImage">Image URL (optional)</label>
+                            <input type="url" id="editParkingImage" name="imageUrl" placeholder="https://example.com/image.jpg">
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button" class="btn btn-secondary" onclick="closeEditParking()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Update Parking Space</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Booking Modal -->
+            <div class="modal" id="bookingModal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Book Parking Space</h3>
+                        <button class="modal-close" onclick="closeBookingModal()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div id="bookingContent">
+                        <!-- Booking form will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 SmartPark. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
